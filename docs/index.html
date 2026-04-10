@@ -181,6 +181,106 @@
             </div>
           </div>
         </div>
+
+        <!-- Input Fields -->
+        <div class="subsection">
+          <h3 class="subsection-title">输入框 Input</h3>
+          <div class="input-preview">
+            <div class="input-field">
+              <label class="input-label">标签文字</label>
+              <div class="input-box">
+                <input type="text" placeholder="请输入内容" class="input-control" />
+              </div>
+            </div>
+            <div class="input-field input-error">
+              <label class="input-label">错误状态</label>
+              <div class="input-box">
+                <input type="text" value="错误内容" class="input-control" />
+              </div>
+              <span class="input-error-text">错误提示信息</span>
+            </div>
+            <div class="input-field input-disabled">
+              <label class="input-label">禁用状态</label>
+              <div class="input-box">
+                <input type="text" value="禁用内容" class="input-control" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Switch & Checkbox & Radio -->
+        <div class="subsection">
+          <h3 class="subsection-title">表单控件 Switch / Checkbox / Radio</h3>
+          <div class="form-controls-preview">
+            <div class="control-row">
+              <span class="control-label">开关 Switch</span>
+              <label class="switch">
+                <input type="checkbox" checked onchange="this.parentElement.classList.toggle('checked')">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="control-row">
+              <span class="control-label">复选框 Checkbox</span>
+              <div class="checkboxes">
+                <label class="checkbox"><input type="checkbox" checked><span class="checkmark"></span>选项A</label>
+                <label class="checkbox"><input type="checkbox"><span class="checkmark"></span>选项B</label>
+              </div>
+            </div>
+            <div class="control-row">
+              <span class="control-label">单选框 Radio</span>
+              <div class="radios">
+                <label class="radio"><input type="radio" name="demo-radio" checked><span class="radio-dot"></span>选项1</label>
+                <label class="radio"><input type="radio" name="demo-radio"><span class="radio-dot"></span>选项2</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast & Dialog -->
+        <div class="subsection">
+          <h3 class="subsection-title">反馈组件 Toast / Dialog</h3>
+          <div class="feedback-preview">
+            <div class="toast-demo">
+              <div class="toast-item toast-success">✓ 成功提示</div>
+              <div class="toast-item toast-error">✗ 错误提示</div>
+              <div class="toast-item toast-warning">! 警告提示</div>
+              <div class="toast-item toast-loading">◐ 加载中...</div>
+            </div>
+            <div class="dialog-demo">
+              <div class="dialog-box">
+                <div class="dialog-title">对话框标题</div>
+                <div class="dialog-content">对话框内容文字说明</div>
+                <div class="dialog-actions">
+                  <button class="btn btn-outline btn-sm">取消</button>
+                  <button class="btn btn-primary btn-sm">确认</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="subsection">
+          <h3 class="subsection-title">搜索栏 SearchBar</h3>
+          <div class="search-preview">
+            <div class="searchbar">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="搜索" class="search-input" />
+              <button class="search-cancel">取消</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="subsection">
+          <h3 class="subsection-title">动作栏 ActionBar</h3>
+          <div class="actionbar-preview">
+            <div class="actionbar">
+              <button class="btn btn-outline btn-md">次要操作</button>
+              <button class="btn btn-primary btn-md">主要操作</button>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
