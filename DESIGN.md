@@ -204,6 +204,7 @@
 | Secondary 次要 | `bg/secondary` | `brand/primary` | `border/heavy` | 次要操作 |
 | Outline 线性 | transparent | `text/primary` | `border/heavy` | 辅助操作 |
 | Text 文本 | transparent | `brand/primary` | 无 | 文本链接 |
+| Dropdown 下拉 | `brand/primary` + 箭头 | `text/inverse` | 无 | 下拉菜单触发 |
 | FAB 悬浮 | `brand/primary` | `text/inverse` | 无 | 悬浮操作 |
 
 **按钮尺寸：**
@@ -221,34 +222,338 @@
 | Disabled 禁用 | `brand/primary-disabled` | `text/inverse` |
 | Loading 加载 | `brand/primary` | `text/inverse` + 加载动画 |
 
+**Vue 组件：**
+```vue
+<gds-button type="primary" size="lg">确认</gds-button>
+<gds-button type="secondary" size="md" :loading="isLoading">提交</gds-button>
+<gds-button type="outline" size="sm" :disabled="true">取消</gds-button>
+```
+
+---
+
 ### 6.2 Navigation Bar 导航栏
 
 **结构：**
-- 高度：44px
+- 高度：44px (iOS) / 56px (Android)
 - 背景：`bg/secondary` (白色)
 - 底部边框：`border/default`
-- 标题：`font/L` Medium, `text/primary`, 居中
+- 标题：`font/L` Medium, `text/primary`, 居中，最大宽度60%
 
 **导航层级：**
 | 层级 | 左侧 | 中间 | 右侧 |
 |------|------|------|------|
 | 一级页面 | 无/图标 | 标题 | 图标(0-3个) |
 | 二级页面 | 返回图标 | 标题 | 图标(0-2个) |
-| 面板 | 关闭/返回 | 标题 | 图标(0-2个) |
+| 面板/弹窗 | 关闭/返回 | 标题 | 图标(0-2个) |
+| 权限切换 | 标题 + 下拉箭头 | - | 图标(0-3个) |
+
+**图标规范：**
+- 尺寸：24×24px
+- 点击区域：44×44px
+- 颜色：`text/primary` 或 `brand/primary`
+- 间距：16px
+
+**Vue 组件：**
+```vue
+<gds-navbar title="标题" :show-back="true" @back="router.back()" />
+```
+
+---
 
 ### 6.3 Tabs 选项卡
 
 **Tabs 类型：**
-| 类型 | 样式 | 选中态 |
-|------|------|--------|
-| Line 线型 | 文字 + 下划线 | `brand/primary` 下划线 |
-| Capsule 胶囊 | 文字 + 胶囊背景 | `brand/primary` 背景 |
-| Text 文字 | 纯文字 | `brand/primary` 文字 + Medium |
+| 类型 | 样式 | 选中态 | 用途 |
+|------|------|--------|------|
+| Line 线型 | 文字 + 下划线 | `brand/primary` 下划线 + Medium | 一级导航 |
+| Capsule 胶囊 | 文字 + 胶囊背景 | 背景 `bg-secondary` + `brand/primary` 文字 | 切换过滤 |
+| Text 文字 | 纯文字 | `brand/primary` 文字 + Medium | 辅助切换 |
+
+**Tabs 层级：**
+- 一级 Tabs：`font/L` (16px)
+- 二级 Tabs：`font/M` (14px)
+- 三级 Tabs：`font/S` (12px)
 
 **Tabs 尺寸：**
 - 高度：44px
 - 最小宽度：根据内容自适应
 - 间距：8px
+- 选项数量：建议 2-6 个
+
+**Segmented Control 分段控件：**
+| 尺寸 | 高度 | 字号 |
+|------|------|------|
+| 大 | 44px | 14px |
+| 中 | 34px | 14px |
+| 小 | 26px | 12px |
+
+---
+
+### 6.4 Input 输入框
+
+**输入框类型：**
+| 类型 | 用途 |
+|------|------|
+| 基础输入框 | 单行文本 |
+| 密码输入框 | 密码输入，支持显示/隐藏 |
+| 长文本输入框 | 多行文本 |
+| 车牌输入框 | 车牌号专用 |
+
+**输入框尺寸：**
+- 高度：56px (含标签)
+- 圆角：`radius/L`
+- 背景：`bg/secondary`
+- 边框：`border/default` (激活态：`brand/primary`)
+
+**输入框状态：**
+| 状态 | 边框 | 背景 | 说明 |
+|------|------|------|------|
+| 未激活 | `border/default` | `bg/secondary` | 默认状态 |
+| 输入中 | `brand/primary` | `bg/secondary` | 获得焦点 |
+| 完成态 | `border/default` | `bg/secondary` | 输入完成 |
+| 错误态 | `status/danger1` | `status/danger2` | 校验失败 |
+| 禁用态 | `border/disabled` | `bg/disabled` | 不可编辑 |
+| 只读 | `border/default` | `bg/tertiary` | 仅展示 |
+
+**Vue 组件：**
+```vue
+<gds-input v-model="value" label="标签" placeholder="请输入" :maxlength="20" />
+<gds-input type="password" v-model="password" label="密码" />
+```
+
+---
+
+### 6.5 Dialog 弹窗
+
+**弹窗类型：**
+| 类型 | 尺寸 | 用途 |
+|------|------|------|
+| 常规 | 294×210px | 确认提示 |
+| 长文本 | 294×414px | 协议展示 |
+| 文+图 | 294×457px | 图文说明 |
+| 图+文 | 294×402px | 图文说明 |
+| 图片 | 294×465px | 图片展示 |
+
+**按钮布局：**
+- 单按钮：全宽 Primary 按钮
+- 双按钮：左侧 Secondary + 右侧 Primary
+- 三按钮：垂直排列
+
+**按钮状态：**
+| 状态 | 样式 |
+|------|------|
+| 强调 | Primary 样式 |
+| 默认 | Secondary 样式 |
+| 危险 | `status/danger1` 背景 |
+| 禁用 | Disabled 样式 |
+
+---
+
+### 6.6 Toast 轻提示
+
+**Toast 类型：**
+| 类型 | 图标 | 用途 |
+|------|------|------|
+| 提示 | 文字 | 纯文字提示 |
+| 加载 | Spinner | 加载中 |
+| 成功 | ✓ | 成功反馈 |
+| 失败 | ✗ | 错误提示 |
+| 警示 | ! | 警告提示 |
+
+**Toast 样式：**
+- 背景：`#000000` 70% 透明
+- 文字：`text/inverse`
+- 圆角：`radius/L`
+- 内边距：16px
+
+---
+
+### 6.7 Loading 加载
+
+**Loading 类型：**
+| 类型 | 用途 |
+|------|------|
+| Spinner | 按钮内加载 |
+| 横向加载 | 页面加载 |
+| 竖向加载 | 列表加载 |
+| 上滑加载 | 列表底部加载更多 |
+
+**上滑加载状态：**
+- 加载中：显示 Spinner + "加载中"
+- 上拉切换：提示上拉加载
+- 没有更多了：提示 "没有更多了"
+- 加载失败：显示重试按钮
+
+**Vue 组件：**
+```vue
+<gds-loading :show="isLoading" type="spinner" />
+<!-- 或 JS 调用 -->
+GdsLoading.show();
+GdsLoading.hide();
+```
+
+---
+
+### 6.8 Switch 开关
+
+**开关尺寸：**
+| 尺寸 | 宽度 | 高度 |
+|------|------|------|
+| 大 | 48px | 28px |
+| 小 | 44px | 24px |
+
+**开关状态：**
+| 状态 | 背景 | 圆点 |
+|------|------|------|
+| 开启 | `brand/primary` | 白色 |
+| 关闭 | `gray-4` | 白色 |
+| 禁用 | `bg/disabled` | `gray-2` |
+| 加载中 | `brand/primary` | 白色 + Spinner |
+
+**Vue 组件：**
+```vue
+<gds-switch v-model="checked" :disabled="false" />
+```
+
+---
+
+### 6.9 Radio 单选框
+
+**单选框尺寸：**
+| 尺寸 | 图标尺寸 | 字号 |
+|------|----------|------|
+| 大 | 24px | 16px |
+| 小 | 20px | 14px |
+
+**单选框状态：**
+| 状态 | 外圈颜色 | 内圈 |
+|------|----------|------|
+| 默认 | `border/heavy` | 无 |
+| 选中 | `brand/primary` | `brand/primary` 实心 |
+| 禁用 | `border/disabled` | 无/半透明 |
+
+**Vue 组件：**
+```vue
+<gds-radio-group v-model="selected">
+  <gds-radio name="1">选项一</gds-radio>
+  <gds-radio name="2">选项二</gds-radio>
+</gds-radio-group>
+```
+
+---
+
+### 6.10 Checkbox 复选框
+
+**复选框尺寸：**
+| 尺寸 | 图标尺寸 | 字号 |
+|------|----------|------|
+| 大 | 24px | 16px |
+| 小 | 20px | 14px |
+
+**复选框状态：**
+| 状态 | 背景色 | 勾选颜色 |
+|------|--------|----------|
+| 默认 | 透明 + `border/heavy` | - |
+| 选中 | `brand/primary` | 白色 |
+| 半选 | `brand/primary` | 白色 (-) |
+| 禁用 | `bg/disabled` | `text/disabled` |
+
+**Vue 组件：**
+```vue
+<gds-checkbox-group v-model="checked">
+  <gds-checkbox name="a">选项A</gds-checkbox>
+  <gds-checkbox name="b">选项B</gds-checkbox>
+</gds-checkbox-group>
+```
+
+---
+
+### 6.11 SearchBar 搜索栏
+
+**搜索栏类型：**
+| 类型 | 用途 |
+|------|------|
+| 常规 | 标准搜索 |
+| 分字段 | 多条件搜索 |
+| 带返回 | 搜索页入口 |
+
+**搜索栏尺寸：**
+- 高度：56px
+- 输入框圆角：`radius/full`
+- 背景：`bg/secondary`
+
+**搜索栏状态：**
+| 状态 | 样式 |
+|------|------|
+| 激活 | 显示输入框 + 清除按钮 |
+| 输入中 | 显示联想词 |
+| 支持返回 | 左侧显示返回按钮 |
+
+**Vue 组件：**
+```vue
+<gds-search v-model="keyword" placeholder="搜索" @search="onSearch" @cancel="onCancel" />
+```
+
+---
+
+### 6.12 DropMenu 下拉菜单
+
+**下拉菜单尺寸：**
+- 高度：44px
+- 选项高度：38px
+- 背景：`bg/secondary`
+
+**下拉菜单状态：**
+| 状态 | 样式 |
+|------|------|
+| 默认 | 文字 + 下拉箭头 |
+| 展开 | 文字 + 上拉箭头 + 下拉面板 |
+| 选中 | 文字 `brand/primary` + 勾选标记 |
+| 禁用 | 文字 `text/disabled` |
+
+---
+
+### 6.13 ActionBar 动作栏
+
+**动作栏尺寸：**
+- 高度：56px
+- 背景：`bg/secondary`
+- 位置：固定在页面底部
+
+**动作栏按钮数量：**
+| 数量 | 布局 |
+|------|------|
+| 2 | 两侧各一 (Primary + Secondary) |
+| 3-4 | 垂直均分 |
+| 5+ | 更多入口 + 展开 |
+
+**多选确认：**
+- 左侧：全选 + 已选数量
+- 右侧：确认按钮
+
+---
+
+### 6.14 组件组合模式
+
+**列表页：**
+```
+NavigationBar → SearchBar → DropMenu → PullRefresh → List → ActionBar
+```
+
+**表单页：**
+```
+NavigationBar → Form (Input/Radio/Checkbox/Switch/Uploader/Picker) → ActionBar
+```
+
+**详情页：**
+```
+NavigationBar → Content → Tabs → ActionBar
+```
+
+**分类页：**
+```
+NavigationBar → SearchBar → TreeSelect
+```
 
 ---
 
@@ -360,4 +665,5 @@
 
 | 日期 | 版本 | 更新内容 |
 |------|------|----------|
+| 2026-04-10 | 2.1 | 新增完整组件规范：Input、Dialog、Toast、Loading、Switch、Radio、Checkbox、SearchBar、DropMenu、ActionBar |
 | 2026-04-09 | 2.0 | 初始版本，支持三品牌切换 |
